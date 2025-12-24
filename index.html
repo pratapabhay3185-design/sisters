@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Princess Christmas Surprise</title>
+    <style>
+        :root {
+            --pink: #ff69b4;
+            --gold: #ffd700;
+            --soft-blue: #a2d2ff;
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(180deg, #1a2a6c, #b21f1f, #fdbb2d);
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* Magical Falling Snow & Stars */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(105vh) rotate(360deg); }
+        }
+
+        /* The Big Sparkling Gift */
+        #gift-box {
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .gift-emoji {
+            font-size: 120px;
+            display: inline-block;
+            animation: bounce 1s infinite alternate;
+            filter: drop-shadow(0 0 15px white);
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-20px) scale(1.1); }
+        }
+
+        /* Name Input Page */
+        #name-page {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 3px solid var(--gold);
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* Content Slides */
+        #content-area {
+            display: none;
+            width: 85%;
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 25px;
+            border-radius: 30px;
+            border: 4px dashed var(--gold);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .slide { display: none; }
+        .active { display: block; }
+
+        .btn {
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-top: 15px;
+        }
+
+        .princess-crown { font-size: 40px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <script>
+        const icons = ['❄️', '✨', '⭐', '🌟'];
+        for (let i = 0; i < 40; i++) {
+            let flake = document.createElement('div');
+            flake.className = 'snowflake';
+            flake.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            flake.style.left = Math.random() * 100 + 'vw';
+            flake.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            flake.style.opacity = Math.random();
+            document.body.appendChild(flake);
+        }
+    </script>
+
+    <div id="name-page">
+        <div class="princess-crown">👑</div>
+        <h2>Who is opening this <br>Magic Gift?</h2>
+        <input type="text" id="sisterName" placeholder="Enter your name...">
+        <br>
+        <button class="btn" onclick="startMagic()">Open Magic! ✨</button>
+    </div>
+
+    <div id="gift-box" style="display:none;" onclick="revealSurprise()">
+        <div class="gift-emoji">🎁</div>
+        <h2 id="tap-text">Tap the gift, Princess!</h2>
+    </div>
+
+    <div id="content-area">
+        <div class="slide active" id="s1">
+            <h1 id="greet-name">Hello!</h1>
+            <p>Santa told me you were the best sister in the world this year! 🎅</p>
+            <button class="btn" onclick="nextSlide('s1', 's2')">Next Wish 💖</button>
+        </div>
+
+        <div class="slide" id="s2">
+            <h1>🍦 Sweet Treats</h1>
+            <p>May your Christmas be filled with chocolates, ice cream, and lots of hugs!</p>
+            <button class="btn" onclick="nextSlide('s2', 's3')">One More? 🎀</button>
+        </div>
+
+        <div class="slide" id="s3">
+            <h1>🎄 Merry Christmas!</h1>
+            <p>I hope you love your time at the airport. Let's go find some magic!</p>
+            <button class="btn" onclick="location.reload()">See it again 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        let userName = "";
+
+        function startMagic() {
+            userName = document.getElementById('sisterName').value || "Princess";
+            document.getElementById('name-page').style.display = 'none';
+            document.getElementById('gift-box').style.display = 'block';
+            document.getElementById('greet-name').innerText = "Hello, " + userName + "! ✨";
+        }
+
+        function revealSurprise() {
+            document.getElementById('gift-box').style.display = 'none';
+            document.getElementById('content-area').style.display = 'block';
+        }
+
+        function nextSlide(current, next) {
+            document.getElementById(current).classList.remove('active');
+            document.getElementById(next).classList.add('active');
+        }
+    </script>
+</body>
+</html>
